@@ -51,4 +51,24 @@ final class Externals
 			die('error');
 		}
 	}
+
+	public function getStyleSheets()
+	{
+		$styleSheets = array();
+
+		foreach ($this->loaded as $name => $external)
+			$styleSheets = array_merge($styleSheets, $external->getStyleSheets());
+
+		return $styleSheets;
+	}
+
+	public function getJavascriptFiles()
+	{
+		$javascriptFiles = array();
+
+		foreach ($this->loaded as $name => $external)
+			$javascriptFiles = array_merge($javascriptFiles, $external->getJavascriptFiles());
+
+		return $javascriptFiles;
+	}
 }

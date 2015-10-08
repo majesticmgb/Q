@@ -6,7 +6,7 @@
  * @author TimoBakx
  */
 
-namespace Core;
+namespace Core\Views;
 
 abstract class View
 {
@@ -20,9 +20,9 @@ abstract class View
 	}
 
 	/**
-	 * @return Module
+	 * @return \Core\Module
 	 */
-	public final function module()
+	protected final function module()
 	{
 		return $this->module;
 	}

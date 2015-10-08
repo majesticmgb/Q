@@ -7,12 +7,18 @@
 namespace External;
 
 use Core\External;
+use Core\Q;
 
 class Smarty extends External
 {
 	public function getTitle()
 	{
-		return 'Smarty';
+		return 'Smarty Template Engine';
+	}
+
+	public function getName()
+	{
+		return 'smarty';
 	}
 
 	public function getVersion()
@@ -22,15 +28,15 @@ class Smarty extends External
 
 	public function initialize()
 	{
-		include(__DIR__.'/smarty/Smarty.class.php');
+		include($this->getServerPath().'/Smarty.class.php');
 	}
 
 	public function getInstance()
 	{
 		$instance = new \Smarty();
 
-		$instance->setTemplateDir('templates/');
-		$instance->setCompileDir('dynamic/smarty/templates_c/');
+		$instance->setTemplateDir(Q::get()->getServerPath().'templates/');
+		$instance->setCompileDir(Q::get()->getServerPath().'dynamic/smarty/templates_c/');
 
 		return $instance;
 	}
