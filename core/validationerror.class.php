@@ -24,7 +24,7 @@ class ValidationError extends GeneralError
 	 */
 	public function __construct($field, $message)
 	{
-		parent::__construct($message);
+		parent::__construct('Validation error', $message);
 
 		$this->field = $field;
 	}

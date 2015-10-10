@@ -11,15 +11,15 @@ namespace Core\Exceptions;
  *
  * @package Core\Exceptions
  */
-class ViewNotFoundException extends QException
+class ControllerNotFoundException extends QException
 {
 	/**
-	 * @param string $viewName
+	 * @param string $controllerName
 	 * @param string $moduleName
 	 */
-	public function __construct($viewName, $moduleName = "")
+	public function __construct($controllerName, $moduleName = "")
 	{
-		$message = 'Thew view "' . $viewName . '"';
+		$message = 'The controller "' . $controllerName . '"';
 		if ($moduleName !== "")
 		{
 			$message .= ' of module "' . $moduleName . '"';
@@ -27,7 +27,7 @@ class ViewNotFoundException extends QException
 		$message .= ' does not exist.';
 
 		parent::__construct(
-			'View not found',
+			'Controller not found',
 			$message
 		);
 	}

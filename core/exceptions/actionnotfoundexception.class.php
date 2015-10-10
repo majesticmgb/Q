@@ -11,15 +11,15 @@ namespace Core\Exceptions;
  *
  * @package Core\Exceptions
  */
-class ViewNotFoundException extends QException
+class ActionNotFoundException extends QException
 {
 	/**
-	 * @param string $viewName
+	 * @param string $actionName
 	 * @param string $moduleName
 	 */
-	public function __construct($viewName, $moduleName = "")
+	public function __construct($actionName, $moduleName = "")
 	{
-		$message = 'Thew view "' . $viewName . '"';
+		$message = 'The action "' . $actionName . '"';
 		if ($moduleName !== "")
 		{
 			$message .= ' of module "' . $moduleName . '"';
@@ -27,7 +27,7 @@ class ViewNotFoundException extends QException
 		$message .= ' does not exist.';
 
 		parent::__construct(
-			'View not found',
+			'Action not found',
 			$message
 		);
 	}

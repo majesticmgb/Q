@@ -4,12 +4,8 @@ include('core/q.class.php');
 
 $q = \Core\Q::get();
 
-$moduleName = $q->params()->get('module', 'Portal');
-$viewName   = $q->params()->get('view', 'Index');
-
-// If not logged in, override current module & action
-$moduleName = 'Users';
-$viewName = 'Login';
+$moduleName = $q->params()->get('module', 'Users');
+$viewName   = $q->params()->get('view', 'Login');
 
 $q->externals()->get('jQuery');
 $q->externals()->get('Bootstrap');

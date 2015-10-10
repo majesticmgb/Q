@@ -4,6 +4,8 @@
  * @author TimoBakx
  */
 
+use Core\Exceptions\QException;
+
 include('core/q.class.php');
 
 $q = \Core\Q::get();
@@ -13,9 +15,14 @@ $actionName = $q->params()->get('action', '');
 
 try
 {
-	$view = $q->modules()->get($moduleName)->action($actionName);
+	$action = $q->modules()->get($moduleName)->action($actionName);
 }
-catch (Exception $e)
+catch (QException $e)
 {
-	die($e->getMessage());
+	$action = new \Core\Actions\ExceptionAction();
+	$action->setException($e);
 }
+
+$json = json_encode($action);
+
+echo $json;

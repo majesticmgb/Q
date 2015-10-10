@@ -5,19 +5,13 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
-		<link href='https://fonts.googleapis.com/css?family=Advent+Pro:400,200,600' rel='stylesheet' type='text/css'>
-		<style>
-			body {
-				font-family: Advent Pro;
-			}
-		</style>
-
 		{foreach from=$q->externals()->getStyleSheets() item="styleSheet"}<link href="{$styleSheet}" rel="stylesheet" type="text/css">
 		{/foreach}
 
 		{foreach from=$q->externals()->getJavascriptFiles() item="javascriptFile"}<script src="{$javascriptFile}"></script>
 		{/foreach}<script src="{$q->getHttpPath()}js/q.js"></script>
 
+		<link href="{$q->getHttpPath()}css/bootstrap-custom.css" rel="stylesheet" type="text/css">
 	</head>
 	<body>
 		<nav class="navbar navbar-default">
@@ -87,5 +81,7 @@
 
 			{$view->getBody()}
 		</div>
+
+		{include file="modal.error.tpl"}
 	</body>
 </html>

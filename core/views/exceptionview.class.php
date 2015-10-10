@@ -47,7 +47,7 @@ class ExceptionView extends View
 	 */
 	public function getTitle()
 	{
-		return "A system error occured";
+		return "A system error occurred";
 	}
 
 	public final function getBody()
