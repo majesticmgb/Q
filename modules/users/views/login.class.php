@@ -7,6 +7,7 @@
 namespace Modules\Users\Views;
 
 use Core\FormElements;
+use Core\Q;
 use Core\Views\AjaxFormView;
 
 /**
@@ -57,11 +58,22 @@ class Login extends AjaxFormView
 
 	protected function getAction()
 	{
-		return \Core\Q::get()->getHttpPath();
+		return Q::get()->getHttpPath();
 	}
 
 	protected function getCancelUrl()
 	{
 		return '';
+	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getBreadcrumbs()
+	{
+		return array(
+			$this->module()->getTitle() => $this->module()->getUrl(),
+			$this->getPanelTitle()      => $this->getUrl(),
+		);
 	}
 }

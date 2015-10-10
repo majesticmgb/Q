@@ -6,7 +6,8 @@
 
 namespace Modules\Users\Actions;
 
-use Core\Q, Core\Action;
+use Core\Q;
+use Core\Actions\Action;
 
 class Login extends Action
 {

@@ -7,6 +7,8 @@
 namespace Core;
 
 use Core\Actions\Action;
+use Core\Exceptions\ActionNotFoundException;
+use Core\Exceptions\ControllerNotFoundException;
 use Core\Exceptions\ViewNotFoundException;
 use Core\Views\View;
 
@@ -42,7 +44,7 @@ abstract class Module
 	 */
 	public final function httpPath()
 	{
-		return Q::get()->getHttpPath() . $this->path();
+		return Q::get()->getHttpPath() . $this->getPath();
 	}
 
 	/**
@@ -50,13 +52,13 @@ abstract class Module
 	 */
 	public final function serverPath()
 	{
-		return Q::get()->getServerPath() . $this->path();
+		return Q::get()->getServerPath() . $this->getPath();
 	}
 
 	/**
 	 * @return string
 	 */
-	public final function url()
+	public final function getUrl()
 	{
 		return Q::get()->getHttpPath() . strtolower($this->getName()) . '/';
 	}
@@ -64,7 +66,7 @@ abstract class Module
 	/**
 	 * @return string
 	 */
-	public final function path()
+	public final function getPath()
 	{
 		return 'modules/' . strtolower($this->getName()) . '/';
 	}
@@ -109,6 +111,7 @@ abstract class Module
 	 * @param $name
 	 *
 	 * @return Controller
+	 * @throws ControllerNotFoundException
 	 */
 	public final function controller($name)
 	{

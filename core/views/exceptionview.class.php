@@ -59,4 +59,12 @@ class ExceptionView extends View
 				<div class="panel-body">'.$this->getException()->getMessage().'</div>
 			</div>';
 	}
+
+	/**
+	 * @return string[]
+	 */
+	public function getBreadcrumbs()
+	{
+		return array();
+	}
 }

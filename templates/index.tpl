@@ -24,7 +24,7 @@
 						<span class="icon-bar"></span>
 						<span class="icon-bar"></span>
 					</button>
-					<a class="navbar-brand" href="#">Brand</a>
+					<a class="navbar-brand" href="#">Q</a>
 				</div>
 
 				<!-- Collect the nav links, forms, and other content for toggling -->
@@ -70,8 +70,13 @@
 
 		<ol class="breadcrumb">
 			<li><a href="{$q->getHttpPath()}">Home</a></li>
-			<li><a href="#">Library</a></li>
-			<li class="active">Data</li>
+			{foreach from=$view->getBreadcrumbs() name="breadcrumbs" key="breadcrumbTitle" item="breadcrumbUrl"}
+				{if $smarty.foreach.breadcrumbs.last}
+					<li class="active">{$breadcrumbTitle}</li>
+				{else}
+					<li><a href="{$breadcrumbUrl}">{$breadcrumbTitle}</a></li>
+				{/if}
+			{/foreach}
 		</ol>
 
 		<div class="container">

@@ -9,7 +9,6 @@
 namespace Core\Views;
 
 use Core\Module;
-use Core\Q;
 
 /**
  * Class View
@@ -44,9 +43,9 @@ abstract class View
 	/**
 	 * @return string
 	 */
-	protected final function url()
+	public final function getUrl()
 	{
-		return $this->module()->url().strtolower($this->getName()).'/';
+		return $this->module()->getUrl() . strtolower($this->getName()) . '/';
 	}
 
 	/**
@@ -60,6 +59,7 @@ abstract class View
 	public final function getName()
 	{
 		$className = get_class($this);
+
 		return substr($className, strrpos($className, '\\') + 1);
 	}
 
@@ -72,4 +72,9 @@ abstract class View
 	 * @return string
 	 */
 	public abstract function getBody();
+
+	/**
+	 * @return string[]
+	 */
+	public abstract function getBreadcrumbs();
 }

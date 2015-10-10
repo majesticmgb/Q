@@ -4,8 +4,14 @@ include('core/q.class.php');
 
 $q = \Core\Q::get();
 
-$moduleName = $q->params()->get('module', 'Users');
-$viewName   = $q->params()->get('view', 'Login');
+$moduleName = $q->params()->get('module', 'Portal');
+$viewName   = $q->params()->get('view', 'Index');
+
+// If not logged in, redirect
+if (true && $moduleName != 'users' && $viewName != 'login')
+{
+	$q->redirect('Users', 'Login');
+}
 
 $q->externals()->get('jQuery');
 $q->externals()->get('Bootstrap');

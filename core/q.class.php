@@ -144,4 +144,12 @@ final class Q
 	{
 		return $this->pdo;
 	}
+
+	public function redirect($moduleName, $viewName)
+	{
+		if (!headers_sent())
+		{
+			header('Location: ' . $this->modules()->get($moduleName)->view($viewName)->getUrl());
+		}
+	}
 }
