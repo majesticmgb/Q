@@ -14,10 +14,19 @@ $viewName = 'Login';
 $q->externals()->get('jQuery');
 $q->externals()->get('Bootstrap');
 
-$view = $q->modules()->get($moduleName)->view($viewName);
-
 /** @var \Smarty $smarty */
 $smarty = $q->externals()->get('Smarty')->getInstance();
+
+try
+{
+	$view = $q->modules()->get($moduleName)->view($viewName);
+}
+catch (Exception $e)
+{
+	$view = new \Core\Views\ExceptionView(null);
+
+	$view->setException($e);
+}
 
 $smarty->assign('q', $q);
 $smarty->assign('view', $view);

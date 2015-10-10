@@ -103,15 +103,18 @@ final class Q
 
 		$className = array_pop($structure);
 		$fileName  = strtolower($className) . '.class.php';
-		$dirName = $this->getServerPath();
+		$dirName   = $this->getServerPath();
 
 		while ($namespace = array_shift($structure))
 		{
 			$dirName .= strtolower($namespace) . '/';
 		}
 
-		/** @noinspection PhpIncludeInspection */
-		include($dirName . $fileName);
+		if (file_exists($dirName . $fileName))
+		{
+			/** @noinspection PhpIncludeInspection */
+			include($dirName . $fileName);
+		}
 	}
 
 	/*** Interface ***/

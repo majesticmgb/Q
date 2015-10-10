@@ -5,6 +5,7 @@
  */
 
 namespace Core;
+use Core\Exceptions\ModuleNotFoundException;
 
 /**
  * Class Modules
@@ -30,25 +31,22 @@ final class Modules
 	 * @param $name
 	 *
 	 * @return Module
+	 * @throws ModuleNotFoundException
 	 */
 	public function get($name)
 	{
 		if (isset($this->loaded[$name]))
 			return $this->loaded[$name];
 
-		try
-		{
-			$module = '\\Modules\\' . $name . '\\' . $name;
+		$module = '\\Modules\\' . $name . '\\' . $name;
 
-			$this->loaded[$name] = new $module();
+		if (!class_exists($module))
+			throw new ModuleNotFoundException($name);
 
-			$this->loaded[$name]->initialize();
+		$this->loaded[$name] = new $module();
 
-			return $this->loaded[$name];
-		}
-		catch(\Exception $e)
-		{
-			die('error');
-		}
+		$this->loaded[$name]->initialize();
+
+		return $this->loaded[$name];
 	}
 }

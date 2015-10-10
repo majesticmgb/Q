@@ -16,12 +16,7 @@ class Users extends Module
 
 	public function getTitle()
 	{
-		return 'Users';
-	}
-
-	public function getName()
-	{
-		return 'users';
+		return 'Usermanagement';
 	}
 
 	public function isLoggedIn()

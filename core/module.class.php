@@ -6,18 +6,24 @@
 
 namespace Core;
 
+use Core\Exceptions\ViewNotFoundException;
+
 abstract class Module
 {
 	public abstract function initialize();
 	public abstract function getTitle();
-	public abstract function getName();
+	public final function getName()
+	{
+		$className = get_class($this);
+		return substr($className, strrpos($className, '\\') + 1);
+	}
 
 	/**
 	 * @return string
 	 */
 	public final function httpPath()
 	{
-		return Q::get()->getHttpPath().'modules/'.$this->getName().'/';
+		return Q::get()->getHttpPath().$this->path();
 	}
 
 	/**
@@ -25,12 +31,35 @@ abstract class Module
 	 */
 	public final function serverPath()
 	{
-		return Q::get()->getServerPath().'modules/'.$this->getName().'/';
+		return Q::get()->getServerPath().$this->path();
+	}
+
+	public final function url()
+	{
+		return Q::get()->getHttpPath().strtolower($this->getName()).'/';
+	}
+
+	public final function path()
+	{
+		return 'modules/'.strtolower($this->getName()).'/';
 	}
 
 	public final function view($name)
 	{
 		$viewName = '\\Modules\\' . $this->getName() . '\\Views\\' . $name;
+
+		if (!class_exists($viewName))
+		{
+			throw new ViewNotFoundException($name, $this->getName());
+		}
+		$view = new $viewName($this);
+
+		return $view;
+	}
+
+	public final function action($name)
+	{
+		$viewName = '\\Modules\\' . $this->getName() . '\\Actions\\' . $name;
 
 		return new $viewName($this);
 	}

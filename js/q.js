@@ -1,10 +1,11 @@
 /** Ajax forms **/
 jQuery(document).on('submit', 'form.ajax-form', function (event) {
-	var form = jQuery(this);
+	var form = jQuery(this),
+		moduleName = form.data('ajax-module'),
+		ajaxName = form.data('ajax-name'),
+	data = [];
 
 	event.preventDefault();
-
-	data = [];
 
 	form.find('input, textarea').each(function (i, element) {
 		element = jQuery(element);
