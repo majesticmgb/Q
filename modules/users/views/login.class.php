@@ -9,6 +9,7 @@ namespace Modules\Users\Views;
 use Core\FormElements;
 use Core\Q;
 use Core\Views\FormView;
+use Modules\Users\Entities\User;
 
 /**
  * Class Login
@@ -20,7 +21,7 @@ class Login extends FormView
 	/**
 	 *
 	 */
-	public function initialize()
+	protected function initializeFormElements()
 	{
 		$this->addFormElement(new FormElements\EmailField('email', 'Email address', '', true));
 		$this->addFormElement(new FormElements\PasswordField('password', 'Password', '', true));
@@ -61,5 +62,10 @@ class Login extends FormView
 	protected function handleSubmit()
 	{
 		var_dump($this->getFormElements());
+
+		$user = new User();
+
+
+		$this->module()->controller('User')->login($user);
 	}
 }

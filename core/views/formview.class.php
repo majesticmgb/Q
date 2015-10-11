@@ -18,6 +18,14 @@ use Core\Q;
 abstract class FormView extends PanelView
 {
 	/**
+	 * @var bool
+	 */
+	private $submitted = false;
+	/**
+	 * @var bool
+	 */
+	private $valid     = true;
+	/**
 	 * @var FormElement[]
 	 */
 	private $formElements = array();
@@ -28,6 +36,19 @@ abstract class FormView extends PanelView
 	protected final function getFormElements()
 	{
 		return $this->formElements;
+	}
+
+	/**
+	 * @param $name
+	 *
+	 * @return FormElement
+	 */
+	protected final function getFormElement($name)
+	{
+		if (isset($this->formElements[$name]))
+			return $this->formElements[$name];
+
+		return null;
 	}
 
 	/**
@@ -47,20 +68,74 @@ abstract class FormView extends PanelView
 	}
 
 	/**
+	 *
+	 */
+	protected final function initialize()
+	{
+		// Load form elements
+		$this->initializeFormElements();
+
+		// Check if submitted
+		$this->submitted = (bool)Q::get()->params()->get('formsubmit', false);
+
+		// Load values from get/post
+		if ($this->isSubmitted())
+		{
+			foreach ($this->formElements as $formElement)
+			{
+				$formElement->setValue(Q::get()->params()->get($formElement->getName(), $formElement->getValue()));
+			}
+		}
+
+		// Check validation
+		if ($this->isSubmitted())
+		{
+			foreach ($this->formElements as $formElement)
+			{
+				if (!$formElement->isValid())
+				{
+					$this->valid = false;
+					break;
+				}
+			}
+		}
+
+		// Handle submit
+		if ($this->isSubmitted() && $this->isValid())
+		{
+			$this->handleSubmit();
+		}
+	}
+
+	/**
+	 * @return mixed
+	 */
+	protected abstract function initializeFormElements();
+
+	/**
 	 * @return string
 	 */
 	protected abstract function getCancelUrl();
 
+	/**
+	 * @return mixed
+	 */
 	protected abstract function handleSubmit();
 
+	/**
+	 * @return bool
+	 */
 	protected final function isSubmitted()
 	{
-		return (bool)Q::get()->params()->get('formsubmit', false);
+		return $this->submitted;
 	}
 
+	/**
+	 * @return bool
+	 */
 	protected final function isValid()
 	{
-
+		return $this->valid;
 	}
 
 	/**
@@ -123,24 +198,6 @@ abstract class FormView extends PanelView
 	 */
 	protected final function getPanelBody()
 	{
-		if ($this->isSubmitted())
-		{
-			$allFieldsValid = true;
-			foreach ($this->formElements as $formElement)
-			{
-				$formElement->setValue(Q::get()->params()->get($formElement->getName(), $formElement->getValue()));
-				if (!$formElement->isValid())
-				{
-					$allFieldsValid = false;
-				}
-			}
-
-			if ($allFieldsValid)
-			{
-				$this->handleSubmit();
-			}
-		}
-
 		$body = $this->getFormStartTag();
 
 		foreach ($this->formElements as $formElement)

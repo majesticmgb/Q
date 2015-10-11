@@ -7,12 +7,15 @@
 namespace Core\FormElements;
 
 /**
- * Class TextField
+ * Class EmailField
  *
  * @package Core\FormElements
  */
 class EmailField extends FormElement
 {
+	/**
+	 * @return bool
+	 */
 	public function isValid()
 	{
 		if (!parent::isValid())
@@ -33,7 +36,7 @@ class EmailField extends FormElement
 	 */
 	public function getField()
 	{
-		$field = '<input type="email" class="form-control validation-email" name="' . $this->getName() . '"';
+		$field = '<input type="email" class="form-control validation-email" name="' . $this->getName() . '" value="' . $this->getValue() . '"';
 		if ($placeholder = $this->getPlaceholder())
 		{
 			$field .= ' placeholder="' . $placeholder . '"';

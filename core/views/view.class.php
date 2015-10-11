@@ -51,7 +51,7 @@ abstract class View
 	/**
 	 * @return void
 	 */
-	public abstract function initialize();
+	protected abstract function initialize();
 
 	/**
 	 * @return string
