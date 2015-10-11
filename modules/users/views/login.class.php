@@ -8,20 +8,22 @@ namespace Modules\Users\Views;
 
 use Core\FormElements;
 use Core\Q;
-use Core\Views\AjaxFormView;
+use Core\Views\FormView;
 
 /**
  * Class Login
  *
  * @package Modules\Users\Views
  */
-class Login extends AjaxFormView
+class Login extends FormView
 {
 	/**
 	 *
 	 */
 	public function initialize()
 	{
+		$this->addFormElement(new FormElements\EmailField('email', 'Email address', '', true));
+		$this->addFormElement(new FormElements\PasswordField('password', 'Password', '', true));
 	}
 
 	/**
@@ -40,27 +42,6 @@ class Login extends AjaxFormView
 		return 'Login';
 	}
 
-	/**
-	 * @return \Core\FormElements\FormElement[]
-	 */
-	protected function getFormFields()
-	{
-		return array(
-			'email'    => new FormElements\EmailField('email', 'Email address', ''),
-			'password' => new FormElements\PasswordField('password', 'Password', ''),
-		);
-	}
-
-	protected function getSubmitAjaxName()
-	{
-		return 'login';
-	}
-
-	protected function getAction()
-	{
-		return Q::get()->getHttpPath();
-	}
-
 	protected function getCancelUrl()
 	{
 		return '';
@@ -75,5 +56,10 @@ class Login extends AjaxFormView
 			$this->module()->getTitle() => $this->module()->getUrl(),
 			$this->getPanelTitle()      => $this->getUrl(),
 		);
+	}
+
+	protected function handleSubmit()
+	{
+		var_dump($this->getFormElements());
 	}
 }

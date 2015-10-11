@@ -4,11 +4,11 @@ include('core/q.class.php');
 
 $q = \Core\Q::get();
 
-$moduleName = $q->params()->get('module', 'Portal');
-$viewName   = $q->params()->get('view', 'Index');
+$moduleName = $q->params()->get('module', 'portal');
+$viewName   = $q->params()->get('view', 'index');
 
 // If not logged in, redirect
-if (true && $moduleName != 'users' && $viewName != 'login')
+if (true && !($moduleName == 'users' && $viewName == 'login'))
 {
 	$q->redirect('Users', 'Login');
 }

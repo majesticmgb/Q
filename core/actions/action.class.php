@@ -21,7 +21,6 @@ abstract class Action implements \JsonSerializable
 	 * @var Module
 	 */
 	private $module;
-	private $executed = false;
 	/**
 	 * @var bool
 	 */
@@ -46,24 +45,8 @@ abstract class Action implements \JsonSerializable
 
 	public abstract function execute();
 
-	private final function runExecution()
-	{
-		if (!$this->isExecuted())
-			$this->execute();
-
-		$this->executed = true;
-	}
-
-	protected final function isExecuted()
-	{
-		return $this->executed;
-	}
-
 	public final function isSuccessful()
 	{
-		if (!$this->isExecuted())
-			$this->runExecution();
-
 		return $this->successful;
 	}
 
@@ -74,9 +57,6 @@ abstract class Action implements \JsonSerializable
 
 	public final function getResults()
 	{
-		if (!$this->isExecuted())
-			$this->runExecution();
-
 		return $this->results;
 	}
 
@@ -88,10 +68,12 @@ abstract class Action implements \JsonSerializable
 
 	public final function getValidationErrors()
 	{
-		if (!$this->isExecuted())
-			$this->runExecution();
-
 		return $this->validationErrors;
+	}
+
+	public final function hasValidationErrors()
+	{
+		return count($this->validationErrors);
 	}
 
 	public final function addValidationError(ValidationError $error)
@@ -101,9 +83,6 @@ abstract class Action implements \JsonSerializable
 
 	public final function getGeneralErrors()
 	{
-		if (!$this->isExecuted())
-			$this->runExecution();
-
 		return $this->generalErrors;
 	}
 

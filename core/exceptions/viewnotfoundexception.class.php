@@ -19,7 +19,7 @@ class ViewNotFoundException extends QException
 	 */
 	public function __construct($viewName, $moduleName = "")
 	{
-		$message = 'Thew view "' . $viewName . '"';
+		$message = 'The view "' . $viewName . '"';
 		if ($moduleName !== "")
 		{
 			$message .= ' of module "' . $moduleName . '"';

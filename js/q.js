@@ -1,5 +1,6 @@
 /** Q Class **/
 var Q = {
+	httpPath: '',
 	showGeneralErrors: function (errors) {
 		var modal = $('#modal'),
 			body = modal.find('.modal-body');
@@ -16,6 +17,15 @@ var Q = {
 		});
 
 		modal.modal('show');
+	},
+	showValidationErrors: function (form, validationErrors) {
+		form.find(':disabled').prop('disabled', false);
+
+		$.each(validationErrors, function (i, error) {
+			var field = form.find('input#' + error.field);
+
+			field.closest('.form-group').addClass('has-error');
+		});
 	}
 };
 
@@ -23,26 +33,32 @@ var Q = {
 $(document).on('submit', 'form.ajax-form', function (event) {
 	var form = $(this),
 		moduleName = form.data('ajax-module'),
-		ajaxName = form.data('ajax-name'),
+		actionName = form.data('ajax-name'),
 	data = [];
 
 	event.preventDefault();
+
+	form.find('button').prop('disabled', true);
+	form.find('.form-group').removeClass('has-error');
 
 	form.find('input, textarea').each(function (i, element) {
 		element = $(element);
 
 		data[element.attr('id')] = element.val();
+
+		element.prop('disabled', true);
 	}).promise().done(function () {
 		$.post(
-			'/action.php',
+			Q.httpPath + 'action/' + moduleName + '/' + actionName + '/',
 			data,
 			function (data, textStatus, jqXHR) {
-				console.log(data);
 				if (data.success) {
 					window.location.href = form.attr('action');
-				} else if (data.generalErrors) {
-					console.log(data.generalErrors);
 
+				} else if (data.validationErrors) {
+					Q.showValidationErrors(form, data.validationErrors);
+
+				} else if (data.generalErrors) {
 					Q.showGeneralErrors(data.generalErrors);
 				}
 			},

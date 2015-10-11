@@ -18,7 +18,7 @@ class PasswordField extends FormElement
 	 */
 	public function getField()
 	{
-		$field = '<input type="password" class="form-control" id="' . $this->getName() . '"';
+		$field = '<input type="password" class="form-control validation-string" name="' . $this->getName() . '"';
 		if ($placeholder = $this->getPlaceholder())
 		{
 			$field .= ' placeholder="' . $placeholder . '"';

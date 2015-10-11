@@ -12,6 +12,10 @@
 		{/foreach}<script src="{$q->getHttpPath()}js/q.js"></script>
 
 		<link href="{$q->getHttpPath()}css/bootstrap-custom.css" rel="stylesheet" type="text/css">
+		<link href="{$q->getHttpPath()}css/q.css" rel="stylesheet" type="text/css">
+		<script>
+			Q.httpPath = "{$q->getHttpPath()}";
+		</script>
 	</head>
 	<body>
 		<nav class="navbar navbar-default">
@@ -79,7 +83,7 @@
 			{/foreach}
 		</ol>
 
-		<div class="container">
+		<div id="content" class="container">
 			<div class="page-header">
 				<h1>{$view->getTitle()}</h1>
 			</div>

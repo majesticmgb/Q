@@ -23,6 +23,8 @@ catch (QException $e)
 	$action->setException($e);
 }
 
+$action->execute();
+
 $json = json_encode($action);
 
 echo $json;

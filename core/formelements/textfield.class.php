@@ -18,7 +18,7 @@ class TextField extends FormElement
 	 */
 	public function getField()
 	{
-		$field = '<input type="text" class="form-control" id="' . $this->getName() . '"';
+		$field = '<input type="text" class="form-control validation-string" name="' . $this->getName() . '"';
 		if ($placeholder = $this->getPlaceholder())
 		{
 			$field .= ' placeholder="' . $placeholder . '"';
