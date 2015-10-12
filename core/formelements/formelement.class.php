@@ -156,14 +156,19 @@ abstract class FormElement
 	public final function getHtml($showValidation = false)
 	{
 		$formGroupClass = '';
-		if ($showValidation && !$this->isValid())
+		if ($showValidation)
 		{
-			$formGroupClass = ' has-error';
+			$formGroupClass = ' has-feedback '.($this->isValid()?'has-success':'has-error');
 		}
 
 		$html = '<div class="form-group' . $formGroupClass . '">';
 		$html .= '<label class="control-label" for="' . $this->getName() . '">' . $this->getTitle() . '</label>';
 		$html .= $this->getField();
+		if ($showValidation)
+		{
+			$html .= '<span class="glyphicon glyphicon-'.($this->isValid()?'ok':'remove').' form-control-feedback" aria-hidden="true"></span>';
+			$html .= '<span id="input'.($this->isValid()?'Success':'Error').'2Status" class="sr-only">('.($this->isValid()?'success':'error').')</span>';
+		}
 		$html .= '</div>';
 
 		return $html;
