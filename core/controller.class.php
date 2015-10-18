@@ -13,6 +13,9 @@ namespace Core;
  */
 abstract class Controller
 {
+	/**
+	 * @var string[]
+	 */
 	private $queries = [];
 
 	/**
@@ -27,11 +30,20 @@ abstract class Controller
 	{
 	}
 
+	/**
+	 * @param string $alias
+	 * @param string $query
+	 */
 	protected final function addQuery($alias, $query)
 	{
 		$this->queries[$alias] = $query;
 	}
 
+	/**
+	 * @param string $alias
+	 *
+	 * @return string
+	 */
 	protected final function getQuery($alias)
 	{
 		if (isset($this->queries[$alias]))

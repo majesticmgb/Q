@@ -15,7 +15,13 @@ namespace Core;
  */
 final class Q
 {
+	/**
+	 *
+	 */
 	const DEFAULT_MODULE = 'Portal';
+	/**
+	 *
+	 */
 	const DEFAULT_VIEW   = 'Index';
 	/**
 	 * @var Q
@@ -151,16 +157,25 @@ final class Q
 		return $this->externals;
 	}
 
+	/**
+	 * @return Modules
+	 */
 	public function modules()
 	{
 		return $this->modules;
 	}
 
+	/**
+	 * @return DB
+	 */
 	public function db()
 	{
 		return $this->db;
 	}
 
+	/**
+	 * @param string $url
+	 */
 	public function redirect($url)
 	{
 		if (!headers_sent())

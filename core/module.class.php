@@ -34,6 +34,9 @@ abstract class Module
 	 */
 	public abstract function getTitle();
 
+	/**
+	 * @return string
+	 */
 	public function getMenuTitle()
 	{
 		return $this->getTitle();

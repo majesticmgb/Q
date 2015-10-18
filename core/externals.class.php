@@ -52,6 +52,9 @@ final class Externals
 		}
 	}
 
+	/**
+	 * @return string[]
+	 */
 	public function getStyleSheets()
 	{
 		$styleSheets = array();
@@ -62,6 +65,9 @@ final class Externals
 		return $styleSheets;
 	}
 
+	/**
+	 * @return string[]
+	 */
 	public function getJavascriptFiles()
 	{
 		$javascriptFiles = array();

@@ -9,6 +9,12 @@ class DB
 	 */
 	private $pdo;
 
+	/**
+	 * @param string $host
+	 * @param string $database
+	 * @param string $username
+	 * @param string $password
+	 */
 	public function __construct($host, $database, $username, $password)
 	{
 		$this->pdo = new \PDO(
@@ -18,6 +24,13 @@ class DB
 		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
 	}
 
+	/**
+	 * @param string $query
+	 * @param string $class
+	 * @param mixed  ...$parameters
+	 *
+	 * @return Entity
+	 */
 	public function select($query, $class = 'StdClass', ...$parameters)
 	{
 		$s = $this->pdo->prepare($query);
@@ -27,6 +40,12 @@ class DB
 		return $s->fetchObject($class);
 	}
 
+	/**
+	 * @param string $table
+	 * @param Entity $entity
+	 *
+	 * @return bool
+	 */
 	public function store($table, Entity $entity)
 	{
 		$attributes = ($entity->getAttributes());
@@ -49,6 +68,12 @@ class DB
 		return $s->execute();
 	}
 
+	/**
+	 * @param string $query
+	 * @param string ...$parameters
+	 *
+	 * @return bool
+	 */
 	public function execute($query, ...$parameters)
 	{
 		$s = $this->pdo->prepare($query);
