@@ -90,7 +90,5 @@
 
 			{$view->getBody()}
 		</div>
-
-		{include file="modal.error.tpl"}
 	</body>
 </html>

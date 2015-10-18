@@ -11,20 +11,10 @@ namespace Core\FormElements;
  *
  * @package Core\FormElements
  */
-class PasswordField extends FormElement
+class PasswordField extends TextField
 {
-	/**
-	 * @return string
-	 */
-	public function getField()
+	protected function getType()
 	{
-		$field = '<input type="password" class="form-control validation-string" name="' . $this->getName() . '"';
-		if ($placeholder = $this->getPlaceholder())
-		{
-			$field .= ' placeholder="' . $placeholder . '"';
-		}
-		$field .= '>';
-
-		return $field;
+		return 'password';
 	}
 }

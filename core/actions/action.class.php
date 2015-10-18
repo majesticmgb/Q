@@ -6,9 +6,8 @@
 
 namespace Core\Actions;
 
-use Core\GeneralError;
+use Core\Error;
 use Core\Module;
-use Core\ValidationError;
 
 /**
  * Class Action
@@ -30,13 +29,9 @@ abstract class Action implements \JsonSerializable
 	 */
 	private $results = array();
 	/**
-	 * @var ValidationError[]
+	 * @var Error[]
 	 */
-	private $validationErrors = array();
-	/**
-	 * @var GeneralError[]
-	 */
-	private $generalErrors = array();
+	private $errors = array();
 
 	public final function __construct($module = null)
 	{
@@ -66,38 +61,22 @@ abstract class Action implements \JsonSerializable
 		$this->results = $results;
 	}
 
-	public final function getValidationErrors()
+	public final function getErrors()
 	{
-		return $this->validationErrors;
+		return $this->errors;
 	}
 
-	public final function hasValidationErrors()
+	public final function addError(Error $error)
 	{
-		return count($this->validationErrors);
-	}
-
-	public final function addValidationError(ValidationError $error)
-	{
-		$this->validationErrors[$error->getField()] = $error;
-	}
-
-	public final function getGeneralErrors()
-	{
-		return $this->generalErrors;
-	}
-
-	public final function addGeneralError(GeneralError $error)
-	{
-		$this->generalErrors[] = $error;
+		$this->errors[] = $error;
 	}
 
 	public final function jsonSerialize()
 	{
 		return array(
-			'success'          => $this->isSuccessful(),
-			'results'          => $this->getResults(),
-			'generalErrors'    => $this->getGeneralErrors(),
-			'validationErrors' => $this->getValidationErrors(),
+			'success' => $this->isSuccessful(),
+			'results' => $this->getResults(),
+			'errors'  => $this->getErrors(),
 		);
 	}
 }

@@ -33,6 +33,7 @@ abstract class FormElement
 	 * @var string
 	 */
 	private $placeholder;
+	private $classes = ['form-group' => 'form-group'];
 
 	/**
 	 * @param string $name
@@ -46,6 +47,11 @@ abstract class FormElement
 		$this->setTitle($title);
 		$this->setValue($value);
 		$this->setRequired($required);
+
+		if ($this->isRequired())
+		{
+			$this->addClass('required');
+		}
 	}
 
 	/**
@@ -128,6 +134,21 @@ abstract class FormElement
 		return $this->placeholder;
 	}
 
+	public final function addClass($class)
+	{
+		$this->classes[$class] = $class;
+	}
+
+	public final function getClasses($asString = false)
+	{
+		if ($asString)
+		{
+			return implode(' ', $this->classes);
+		}
+
+		return $this->classes;
+	}
+
 	/**
 	 * @return mixed
 	 */
@@ -135,16 +156,6 @@ abstract class FormElement
 
 	public function isValid()
 	{
-		if (!is_string($this->getValue()))
-		{
-			return false;
-		}
-
-		if ($this->isRequired() && strlen($this->getValue()) === 0)
-		{
-			return false;
-		}
-
 		return true;
 	}
 
@@ -155,19 +166,26 @@ abstract class FormElement
 	 */
 	public final function getHtml($showValidation = false)
 	{
-		$formGroupClass = '';
 		if ($showValidation)
 		{
-			$formGroupClass = ' has-feedback '.($this->isValid()?'has-success':'has-error');
+			$this->addClass('has-feedback');
+			if ($this->isValid())
+			{
+				$this->addClass('has-success');
+			}
+			else
+			{
+				$this->addClass('has-error');
+			}
 		}
 
-		$html = '<div class="form-group' . $formGroupClass . '">';
+		$html = '<div class="' . $this->getClasses(true) . '">';
 		$html .= '<label class="control-label" for="' . $this->getName() . '">' . $this->getTitle() . '</label>';
 		$html .= $this->getField();
 		if ($showValidation)
 		{
-			$html .= '<span class="glyphicon glyphicon-'.($this->isValid()?'ok':'remove').' form-control-feedback" aria-hidden="true"></span>';
-			$html .= '<span id="input'.($this->isValid()?'Success':'Error').'2Status" class="sr-only">('.($this->isValid()?'success':'error').')</span>';
+			$html .= '<span class="glyphicon glyphicon-' . ($this->isValid() ? 'ok' : 'remove') . ' form-control-feedback" aria-hidden="true"></span>';
+			$html .= '<span id="input' . ($this->isValid() ? 'Success' : 'Error') . '2Status" class="sr-only">(' . ($this->isValid() ? 'success' : 'error') . ')</span>';
 		}
 		$html .= '</div>';
 

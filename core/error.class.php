@@ -7,11 +7,11 @@
 namespace Core;
 
 /**
- * Class GeneralError
+ * Class Error
  *
  * @package Core
  */
-class GeneralError implements \JsonSerializable
+class Error implements \JsonSerializable
 {
 	/**
 	 * @var string

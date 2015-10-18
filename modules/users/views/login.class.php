@@ -25,6 +25,7 @@ class Login extends FormView
 	{
 		$this->addFormElement(new FormElements\EmailField('email', 'Email address', '', true));
 		$this->addFormElement(new FormElements\PasswordField('password', 'Password', '', true));
+
 	}
 
 	/**

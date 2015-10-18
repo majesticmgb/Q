@@ -7,7 +7,7 @@
 namespace Core\Actions;
 
 use Core\Exceptions\QException;
-use Core\GeneralError;
+use Core\Error;
 
 /**
  * Class ExceptionAction
@@ -35,8 +35,8 @@ class ExceptionAction extends Action
 	{
 		if ($this->getException())
 		{
-			$this->addGeneralError(
-				new GeneralError(
+			$this->addError(
+				new Error(
 					$this->getException()->getTitle(), $this->getException()->getMessage()
 				)
 			);

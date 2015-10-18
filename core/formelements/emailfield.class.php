@@ -11,8 +11,20 @@ namespace Core\FormElements;
  *
  * @package Core\FormElements
  */
-class EmailField extends FormElement
+class EmailField extends TextField
 {
+	public function __construct($name, $title, $value, $required = false)
+	{
+		parent::__construct($name, $title, $value, $required);
+
+		$this->addClass('validate-email');
+	}
+
+	protected function getType()
+	{
+		return 'email';
+	}
+
 	/**
 	 * @return bool
 	 */
@@ -29,20 +41,5 @@ class EmailField extends FormElement
 		}
 
 		return true;
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getField()
-	{
-		$field = '<input type="email" class="form-control validation-email" name="' . $this->getName() . '" value="' . $this->getValue() . '"';
-		if ($placeholder = $this->getPlaceholder())
-		{
-			$field .= ' placeholder="' . $placeholder . '"';
-		}
-		$field .= ' novalidate>';
-
-		return $field;
 	}
 }
