@@ -16,15 +16,21 @@ class Edit extends FormView
 	/**
 	 * @var User
 	 */
-	private $user;
+	protected $user;
+
+	protected function initializeData()
+	{
+		$this->user = $this->module()->controller('User')->get(Q::get()->params()->get('id'));
+	}
 
 	/**
 	 * @return mixed
 	 */
 	protected function initializeFormElements()
 	{
-		$this->user = $this->module()->controller('User')->get(Q::get()->params()->get('id'));
-
+		$this->addFormElement(new FormElements\TextField('firstName', 'First name', $this->user->getFirstName(), true));
+		$this->addFormElement(new FormElements\TextField('middleName', 'Middle name', $this->user->getMiddleName()));
+		$this->addFormElement(new FormElements\TextField('lastName', 'Last name', $this->user->getLastName(), true));
 		$this->addFormElement(new FormElements\EmailField('email', 'Email address', $this->user->getEmail(), true));
 		//$this->addFormElement(new FormElements\PasswordField('password', 'Password', '', true));
 	}
@@ -42,18 +48,23 @@ class Edit extends FormView
 	 */
 	protected function handleSubmit()
 	{
-		// TODO: Implement handleSubmit() method.
+		$this->user->setFirstName($this->getFormElement('firstName')->getValue());
+		$this->user->setMiddleName($this->getFormElement('middleName')->getValue());
+		$this->user->setLastName($this->getFormElement('lastName')->getValue());
+		$this->user->setEmail($this->getFormElement('email')->getValue());
+
+		$this->module()->controller('user')->save($this->user);
 	}
 
-	protected function getPanelTitle()
+	public function getTitle()
 	{
-		return 'Edit '.$this->user->getEmail();
+		return 'Edit '.$this->user->getName();
 	}
 
 	/**
 	 * @return string
 	 */
-	public function getTitle()
+	protected function getPanelTitle()
 	{
 		return 'Edit user';
 	}

@@ -81,20 +81,32 @@ class Menu
 		}
 		elseif (count($this->views) > 1)
 		{
-			$html = '<li class="dropdown">';
-			$html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
-			$html .= $this->getTitle();
-			$html .= ' <span class="caret"></span></a>';
-			$html .= '<ul class="dropdown-menu">';
+			$dropdownHtml = '';
+			$current = false;
 
 			/** @var View $view */
 			foreach ($this->views as $view)
 			{
-				$html .= '<li><a href="' . $view->getUrl() . '">';
-				$html .= $view->getMenuTitle();
-				$html .= '</a></li>';
+				$dropdownCurrent = $view->isCurrent();
+
+				$dropdownHtml .= '<li'.($dropdownCurrent?' class="active"':'').'><a href="' . $view->getUrl() . '">';
+				$dropdownHtml .= $view->getMenuTitle();
+				if ($dropdownCurrent)
+					$dropdownHtml .= ' <span class="sr-only">(current)</span>';
+				$dropdownHtml .= '</a></li>';
+
+				if ($dropdownCurrent)
+					$current = true;
 			}
 
+			$html = '<li class="dropdown'.($current?' active':'').'">';
+			$html .= '<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">';
+			$html .= $this->getTitle();
+			if ($current)
+				$html .= ' <span class="sr-only">(current)</span>';
+			$html .= ' <span class="caret"></span></a>';
+			$html .= '<ul class="dropdown-menu">';
+			$html .= $dropdownHtml;
 			$html .= '</ul></li>';
 		}
 

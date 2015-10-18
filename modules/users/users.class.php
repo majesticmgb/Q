@@ -11,21 +11,22 @@ use Core\Module;
 
 class Users extends Module
 {
-	public function initialize()
-	{
-	}
-
 	public function getTitle()
 	{
 		return 'User Management';
 	}
 
+	public function initialize()
+	{
+	}
+
 	public function getAccountMenu()
 	{
-		$menu = new Menu($this);
+		$menu = new Menu($this, 'Account');
 
 		if ($this->isLoggedIn())
 		{
+			$menu->addView($this->view('Account'));
 			$menu->addView($this->view('Logout'));
 		}
 		else
@@ -39,5 +40,10 @@ class Users extends Module
 	public function isLoggedIn()
 	{
 		return $this->controller('User')->isLoggedIn();
+	}
+
+	public function getLoggedInUserID()
+	{
+		return $this->controller('User')->getLoggedInUserID();
 	}
 }

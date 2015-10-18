@@ -29,8 +29,6 @@ abstract class View
 	public final function __construct(Module $module = null)
 	{
 		$this->module = $module;
-
-		$this->initialize();
 	}
 
 	/**
@@ -86,7 +84,7 @@ abstract class View
 	/**
 	 * @return void
 	 */
-	protected abstract function initialize();
+	public abstract function initialize();
 
 	/**
 	 * @return string

@@ -13,7 +13,7 @@ class Index extends View
 	/**
 	 * @return void
 	 */
-	protected function initialize()
+	public function initialize()
 	{
 		// TODO: Implement initialize() method.
 	}

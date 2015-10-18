@@ -22,12 +22,14 @@ try
 		$q->redirect($q->modules()->get('Users')->view('Login')->getUrl());
 	}
 }
-catch (Exception $e)
+catch (\Core\Exceptions\QException $e)
 {
 	$view = new \Core\Views\ExceptionView(null);
 
 	$view->setException($e);
 }
+
+$view->initialize();
 
 $smarty->assign('q', $q);
 $smarty->assign('view', $view);

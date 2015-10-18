@@ -13,8 +13,11 @@ class Logout extends \Core\Views\View
 	/**
 	 * @return void
 	 */
-	protected function initialize()
+	public function initialize()
 	{
+		$this->module()->controller('User')->logout();
+
+		Q::get()->redirect(Q::get()->getHttpPath());
 	}
 
 	/**
@@ -30,10 +33,6 @@ class Logout extends \Core\Views\View
 	 */
 	public function getBody()
 	{
-		$this->module()->controller('User')->logout();
-
-		Q::get()->redirect(Q::get()->getHttpPath());
-
 		return '';
 	}
 

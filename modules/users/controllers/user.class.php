@@ -32,6 +32,11 @@ class User extends Controller
 		return Q::get()->db()->select(self::QUERY_GET, self::CLASS_USER, $id);
 	}
 
+	public function save(\Modules\Users\Entities\User $user)
+	{
+		return Q::get()->db()->store('users_user', $user);
+	}
+
 	/**
 	 * @param string $email
 	 * @param string $password
@@ -63,5 +68,12 @@ class User extends Controller
 	public function isLoggedIn()
 	{
 		return (isset($_SESSION['users:user']) && $_SESSION['users:user'] instanceOf \Modules\Users\Entities\User);
+	}
+
+	public function getLoggedInUserID()
+	{
+		if ($this->isLoggedIn())
+			return $_SESSION['users:user']->getID();
+		return 0;
 	}
 }

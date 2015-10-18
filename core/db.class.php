@@ -12,10 +12,10 @@ class DB
 	public function __construct($host, $database, $username, $password)
 	{
 		$this->pdo = new \PDO(
-			'mysql:host='.$host.';dbname='.$database,
-			$username,
-			$password
+			'mysql:host=' . $host . ';dbname=' . $database, $username, $password
 		);
+
+		$this->pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_WARNING);
 	}
 
 	public function select($query, $class = 'StdClass', ...$parameters)
@@ -24,11 +24,35 @@ class DB
 
 		$s->execute($parameters);
 
-		$result = $s->fetchAll(\PDO::FETCH_CLASS, $class);
+		return $s->fetchObject($class);
+	}
 
-		if (count($result))
-			return reset($result);
+	public function store($table, Entity $entity)
+	{
+		$attributes = ($entity->getAttributes());
 
-		return new $class();
+		$values  = [];
+		$columns = [];
+		foreach ($attributes as $column => $value)
+		{
+			$columns[] = '`' . $column . '`';
+			$values[]  = ':' . $column;
+		}
+
+		$s = $this->pdo->prepare('REPLACE INTO `' . $table . '` (' . implode(', ', $columns) . ') VALUES (' . implode(', ', $values) . ')');
+
+		foreach ($attributes as $column => $value)
+		{
+			$s->bindValue(':' . $column, $value);
+		}
+
+		return $s->execute();
+	}
+
+	public function execute($query, ...$parameters)
+	{
+		$s = $this->pdo->prepare($query);
+
+		return $s->execute($parameters);
 	}
 }

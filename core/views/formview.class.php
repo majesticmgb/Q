@@ -7,6 +7,7 @@
 namespace Core\Views;
 
 use Core\FormElements\FormElement;
+use Core\Module;
 use Core\Params;
 use Core\Q;
 
@@ -70,9 +71,10 @@ abstract class FormView extends PanelView
 	/**
 	 *
 	 */
-	protected final function initialize()
+	public final function initialize()
 	{
-		// Load form elements
+		$this->initializeData();
+
 		$this->initializeFormElements();
 
 		// Check if submitted
@@ -108,9 +110,14 @@ abstract class FormView extends PanelView
 	}
 
 	/**
-	 * @return mixed
+	 * @return void
 	 */
 	protected abstract function initializeFormElements();
+
+	/**
+	 * @return void
+	 */
+	protected abstract function initializeData();
 
 	/**
 	 * @return string
