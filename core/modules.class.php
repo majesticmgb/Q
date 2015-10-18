@@ -24,7 +24,25 @@ final class Modules
 	 */
 	public function __construct()
 	{
+	}
 
+	/**
+	 * @param $name
+	 *
+	 * @return bool
+	 */
+	public function exists($name)
+	{
+		try
+		{
+			$this->get($name);
+		}
+		catch (ModuleNotFoundException $e)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	/**

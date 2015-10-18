@@ -15,6 +15,8 @@ namespace Core;
  */
 final class Q
 {
+	const DEFAULT_MODULE = 'Portal';
+	const DEFAULT_VIEW   = 'Index';
 	/**
 	 * @var Q
 	 */
@@ -31,7 +33,10 @@ final class Q
 	 * @var Modules
 	 */
 	protected $modules;
-	protected $pdo;
+	/**
+	 * @var \Core\DB
+	 */
+	protected $db;
 
 	/**
 	 * @return string
@@ -39,6 +44,14 @@ final class Q
 	public function getHttpPath()
 	{
 		return 'http://' . $_SERVER['HTTP_HOST'] . '/';
+	}
+
+	/**
+	 * @return string
+	 */
+	public function getUrl()
+	{
+		return $_SERVER['REQUEST_URI'];
 	}
 
 	/**
@@ -76,7 +89,10 @@ final class Q
 		spl_autoload_register(array($this, 'loadClass'));
 
 		// Initialize database
-		$this->pdo = new \PDO("mysql:host=localhost;dbname=q", 'TimoBakx', 'zLSbx4DycxeVRnMj');
+		$this->db = new DB('localhost', 'q', 'TimoBakx', 'zLSbx4DycxeVRnMj');
+
+		// Initialize sessions
+		session_start();
 
 		// Initialize parameters
 		$this->params = new Params();
@@ -140,16 +156,16 @@ final class Q
 		return $this->modules;
 	}
 
-	public function pdo()
+	public function db()
 	{
-		return $this->pdo;
+		return $this->db;
 	}
 
-	public function redirect($moduleName, $viewName)
+	public function redirect($url)
 	{
 		if (!headers_sent())
 		{
-			header('Location: ' . $this->modules()->get($moduleName)->view($viewName)->getUrl());
+			header('Location: ' . $url);
 		}
 	}
 }

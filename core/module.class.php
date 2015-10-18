@@ -20,6 +20,11 @@ use Core\Views\View;
 abstract class Module
 {
 	/**
+	 * @var View[]
+	 */
+	private $loadedViews = [];
+
+	/**
 	 * @return void
 	 */
 	public abstract function initialize();
@@ -28,6 +33,11 @@ abstract class Module
 	 * @return string
 	 */
 	public abstract function getTitle();
+
+	public function getMenuTitle()
+	{
+		return $this->getTitle();
+	}
 
 	/**
 	 * @return string
@@ -79,14 +89,19 @@ abstract class Module
 	 */
 	public final function view($name)
 	{
-		$viewName = '\\Modules\\' . $this->getName() . '\\Views\\' . $name;
-
-		if (!class_exists($viewName))
+		if (!isset($this->loadedViews[$name]))
 		{
-			throw new ViewNotFoundException($name, $this->getName());
+			$viewName = '\\Modules\\' . $this->getName() . '\\Views\\' . $name;
+
+			if (!class_exists($viewName))
+			{
+				throw new ViewNotFoundException($name, $this->getName());
+			}
+
+			$this->loadedViews[$name] = new $viewName($this);
 		}
 
-		return new $viewName($this);
+		return $this->loadedViews[$name];
 	}
 
 	/**

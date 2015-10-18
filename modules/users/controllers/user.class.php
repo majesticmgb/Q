@@ -7,26 +7,61 @@
 namespace Modules\Users\Controllers;
 
 use Core\Controller;
+use Core\Q;
 
+/**
+ * Class User
+ *
+ * @package Modules\Users\Controllers
+ */
 class User extends Controller
 {
+	const CLASS_USER = '\Modules\Users\Entities\User';
+	const QUERY_GET = 'SELECT * FROM `users_user` WHERE `id` = ? LIMIT 0, 1';
+	const QUERY_LOGIN = 'SELECT * FROM `users_user` WHERE `email` = ? AND `password` = ? LIMIT 0, 1';
+
+	/**
+	 *
+	 */
 	public function initialize()
 	{
-		$this->registerTable('user', 'users_user');
 	}
 
-	protected function getEntityClass()
+	public function get($id)
 	{
-		// TODO: Implement getEntityClass() method.
+		return Q::get()->db()->select(self::QUERY_GET, self::CLASS_USER, $id);
 	}
 
-	public function login(\Modules\Users\Entities\User $user)
+	/**
+	 * @param string $email
+	 * @param string $password
+	 *
+	 * @return bool
+	 */
+	public function login($email, $password)
 	{
-		$_SESSION['users:user'] = $user;
+		/** @var \Modules\Users\Entities\User $user */
+		$user = Q::get()->db()->select(self::QUERY_LOGIN, self::CLASS_USER, $email, $password);
+
+		if ($user->getId())
+		{
+			$_SESSION['users:user'] = $user;
+			return true;
+		}
+
+		return false;
 	}
 
+	public function logout()
+	{
+		unset($_SESSION['users:user']);
+	}
+
+	/**
+	 * @return bool
+	 */
 	public function isLoggedIn()
 	{
-		return (isset($_SESSION['users:user']) && isset($_SESSION['users:user']) instanceOf \Modules\Users\Entities\User);
+		return (isset($_SESSION['users:user']) && $_SESSION['users:user'] instanceOf \Modules\Users\Entities\User);
 	}
 }

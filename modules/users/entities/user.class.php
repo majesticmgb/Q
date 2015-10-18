@@ -22,7 +22,7 @@ class User extends Entity
 	/**
 	 * @var string
 	 */
-	protected $username;
+	protected $email;
 	/**
 	 * @var string
 	 */
@@ -47,17 +47,17 @@ class User extends Entity
 	/**
 	 * @return string
 	 */
-	public function getUsername()
+	public function getEmail()
 	{
-		return $this->username;
+		return $this->email;
 	}
 
 	/**
-	 * @param string $username
+	 * @param string $email
 	 */
-	public function setUsername($username)
+	public function setEmail($email)
 	{
-		$this->username = $username;
+		$this->email = $email;
 	}
 
 	/**

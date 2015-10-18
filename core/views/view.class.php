@@ -9,6 +9,7 @@
 namespace Core\Views;
 
 use Core\Module;
+use Core\Q;
 
 /**
  * Class View
@@ -41,11 +42,45 @@ abstract class View
 	}
 
 	/**
+	 * @return bool
+	 */
+	public final function isCurrent()
+	{
+		$url = Q::get()->getUrl();
+
+		if ($url == '/')
+		{
+			return ($this->module()->getName() == Q::DEFAULT_MODULE && $this->getName() == Q::DEFAULT_VIEW);
+		}
+		else
+		{
+			$urlParts = explode('/', $url);
+
+			return (strtolower($this->module()->getName()) == $urlParts[1] && strtolower($this->getName()) == $urlParts[2]);
+		}
+	}
+
+	/**
 	 * @return string
 	 */
 	public final function getUrl()
 	{
-		return $this->module()->getUrl() . strtolower($this->getName()) . '/';
+		if ($this->module()->getName() == Q::DEFAULT_MODULE && $this->getName() == Q::DEFAULT_VIEW)
+		{
+			return Q::get()->getHttpPath();
+		}
+		else
+		{
+			return $this->module()->getUrl() . strtolower($this->getName()) . '/';
+		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function requiresLogin()
+	{
+		return true;
 	}
 
 	/**
@@ -67,6 +102,11 @@ abstract class View
 	 * @return string
 	 */
 	public abstract function getTitle();
+
+	public function getMenuTitle()
+	{
+		return $this->getTitle();
+	}
 
 	/**
 	 * @return string

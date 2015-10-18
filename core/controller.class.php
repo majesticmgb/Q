@@ -13,20 +13,12 @@ namespace Core;
  */
 abstract class Controller
 {
-	/**
-	 * @var string[]s
-	 */
-	private $tables = array();
+	private $queries = [];
 
 	/**
 	 * @return mixed
 	 */
 	public abstract function initialize();
-
-	/**
-	 * @return mixed
-	 */
-	protected abstract function getEntityClass();
 
 	/**
 	 *
@@ -35,41 +27,15 @@ abstract class Controller
 	{
 	}
 
-	/**
-	 * @param $alias
-	 *
-	 * @return string
-	 */
-	protected final function table($alias)
+	protected final function addQuery($alias, $query)
 	{
-		if (isset($this->tables[$alias]))
-		{
-			return '`'.$this->tables[$alias].'`';
-		}
-		// TODO: Throw error
+		$this->queries[$alias] = $query;
+	}
+
+	protected final function getQuery($alias)
+	{
+		if (isset($this->queries[$alias]))
+			return $this->queries[$alias];
 		return '';
-	}
-
-	/**
-	 * Register a table name under an alias
-	 *
-	 * @param $alias
-	 * @param $table
-	 */
-	protected final function registerTable($alias, $table)
-	{
-		$this->tables[$alias] = $table;
-	}
-
-	/**
-	 * @param $selector
-	 *
-	 * @return array
-	 */
-	public final function get($selector)
-	{
-		$s = Q::get()->pdo()->query('SELECT * FROM ' . $this->table('') . ' WHERE ' . $selector);
-
-		return $s->fetchAll(\PDO::FETCH_CLASS, $this->getEntityClass());
 	}
 }

@@ -9,7 +9,6 @@ namespace Modules\Users\Views;
 use Core\FormElements;
 use Core\Q;
 use Core\Views\FormView;
-use Modules\Users\Entities\User;
 
 /**
  * Class Login
@@ -25,7 +24,6 @@ class Login extends FormView
 	{
 		$this->addFormElement(new FormElements\EmailField('email', 'Email address', '', true));
 		$this->addFormElement(new FormElements\PasswordField('password', 'Password', '', true));
-
 	}
 
 	/**
@@ -34,6 +32,11 @@ class Login extends FormView
 	public function getTitle()
 	{
 		return 'Welcome to Q';
+	}
+
+	public function getMenuTitle()
+	{
+		return 'Login';
 	}
 
 	/**
@@ -62,11 +65,19 @@ class Login extends FormView
 
 	protected function handleSubmit()
 	{
-		var_dump($this->getFormElements());
+		$success = $this->module()->controller('User')->login(
+			$this->getFormElement('email')->getValue(),
+			$this->getFormElement('password')->getValue()
+		);
 
-		$user = new User();
+		if ($success)
+		{
+			Q::get()->redirect(Q::get()->getHttpPath());
+		}
+	}
 
-
-		$this->module()->controller('User')->login($user);
+	public function requiresLogin()
+	{
+		return false;
 	}
 }
