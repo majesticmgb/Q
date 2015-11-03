@@ -37,6 +37,18 @@ class Users extends Module
 		return $menu->getHtml();
 	}
 
+	public function getMenu()
+	{
+		if (!$this->isLoggedIn())
+			return '';
+
+		$menu = new Menu($this, 'Users');
+
+		$menu->addView($this->view('Index'));
+
+		return $menu->getHtml();
+	}
+
 	public function isLoggedIn()
 	{
 		return $this->controller('User')->isLoggedIn();

@@ -5,17 +5,23 @@
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 
+		<!-- Externals -->
 		{foreach from=$q->externals()->getStyleSheets() item="styleSheet"}<link href="{$styleSheet}" rel="stylesheet" type="text/css">
 		{/foreach}
-
 		{foreach from=$q->externals()->getJavascriptFiles() item="javascriptFile"}<script src="{$javascriptFile}"></script>
-		{/foreach}<script src="{$q->getHttpPath()}js/q.js"></script>
+		{/foreach}
+		<!-- /Externals -->
 
+		<!-- Core -->
 		<link href="{$q->getHttpPath()}css/bootstrap-custom.css" rel="stylesheet" type="text/css">
 		<link href="{$q->getHttpPath()}css/q.css" rel="stylesheet" type="text/css">
-		<script>
-			Q.httpPath = "{$q->getHttpPath()}";
-		</script>
+		<script src="{$q->getHttpPath()}js/q.js"></script>
+		<!-- /Core -->
+
+		<!-- View -->
+		{foreach from=$view->getJavascriptFiles() item="javascriptFile"}<script src="{$javascriptFile}"></script>
+		{/foreach}
+		<script>{$view->getJavascript()}</script>
 	</head>
 	<body>
 		<nav class="navbar navbar-default">
@@ -35,6 +41,7 @@
 				<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 					<ul class="nav navbar-nav">
 						{$q->modules()->get('Portal')->getMenu()}
+						{$q->modules()->get('Users')->getMenu()}
 					</ul>
 					<ul class="nav navbar-nav navbar-right">
 						{$q->modules()->get('Users')->getAccountMenu()}

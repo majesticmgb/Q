@@ -17,8 +17,10 @@ use Core\Q;
 class User extends Controller
 {
 	const CLASS_USER = '\Modules\Users\Entities\User';
-	const QUERY_GET = 'SELECT * FROM `users_user` WHERE `id` = ? LIMIT 0, 1';
-	const QUERY_LOGIN = 'SELECT * FROM `users_user` WHERE `email` = ? AND `password` = ? LIMIT 0, 1';
+	const QUERY_GET = 'SELECT * FROM `users_user` WHERE `id` = :id-INT LIMIT 0, 1';
+	const QUERY_LIST = 'SELECT * FROM `users_user` WHERE 1';
+	const QUERY_LOGIN = 'SELECT * FROM `users_user` WHERE `email` = :email-STRING AND `password` = :password-STRING LIMIT 0, 1';
+	const COUNT = 30;
 
 	/**
 	 *
@@ -30,6 +32,13 @@ class User extends Controller
 	public function get($id)
 	{
 		return Q::get()->db()->select(self::QUERY_GET, self::CLASS_USER, $id);
+	}
+
+	public function getList($page)
+	{
+		$offset = ($page - 1) * self::COUNT;
+
+		return Q::get()->db()->selectAll(self::QUERY_LIST, self::CLASS_USER, $offset, self::COUNT);
 	}
 
 	public function save(\Modules\Users\Entities\User $user)

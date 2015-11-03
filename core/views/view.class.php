@@ -115,4 +115,14 @@ abstract class View
 	 * @return string[]
 	 */
 	public abstract function getBreadcrumbs();
+
+	public function getJavascriptFiles()
+	{
+		return [];
+	}
+
+	public function getJavascript()
+	{
+		return '';
+	}
 }

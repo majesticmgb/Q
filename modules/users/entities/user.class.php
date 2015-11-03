@@ -16,10 +16,6 @@ use Core\Entity;
 class User extends Entity
 {
 	/**
-	 * @var int
-	 */
-	protected $id;
-	/**
 	 * @var string
 	 */
 	protected $email;
@@ -39,22 +35,6 @@ class User extends Entity
 	 * @var string
 	 */
 	protected $lastName;
-
-	/**
-	 * @return int
-	 */
-	public function getId()
-	{
-		return $this->id;
-	}
-
-	/**
-	 * @param int $id
-	 */
-	public function setId($id)
-	{
-		$this->id = $id;
-	}
 
 	/**
 	 * @return string

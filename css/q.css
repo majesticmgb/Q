@@ -1,0 +1,20 @@
+/*** Listview ***/
+.list-wrapper {
+	margin: -15px;
+}
+
+.list-wrapper > table.table {
+	margin-bottom: 0;
+}
+
+.list-wrapper.clickable > table.table tbody tr {
+	cursor: pointer;
+}
+
+.list-wrapper.clickable > table.table tbody tr:hover {
+	background-color: #d7d7d7;
+}
+
+.list-wrapper > table.table tfoot {
+	text-align: center;
+}

@@ -40,7 +40,7 @@ class Edit extends FormView
 	 */
 	protected function getCancelUrl()
 	{
-		return '';
+		return $this->module()->view('index')->getUrl();
 	}
 
 	/**
@@ -53,7 +53,10 @@ class Edit extends FormView
 		$this->user->setLastName($this->getFormElement('lastName')->getValue());
 		$this->user->setEmail($this->getFormElement('email')->getValue());
 
-		$this->module()->controller('user')->save($this->user);
+		if ($this->module()->controller('user')->save($this->user))
+		{
+			Q::get()->redirect($this->module()->view('index')->getUrl());
+		}
 	}
 
 	public function getTitle()
@@ -74,9 +77,18 @@ class Edit extends FormView
 	 */
 	public function getBreadcrumbs()
 	{
-		return array(
-			$this->module()->getTitle() => $this->module()->getUrl(),
-			$this->getPanelTitle()      => $this->getUrl(),
-		);
+		$breadcrumbs = $this->module()->view('Index')->getBreadcrumbs();
+
+		$breadcrumbs[$this->getPanelTitle()] = $this->getPanelTitle();
+
+		return $breadcrumbs;
+	}
+
+	/**
+	 * @return string
+	 */
+	protected function getAction()
+	{
+		return $this->getUrl().'?id='.$this->user->getID();
 	}
 }

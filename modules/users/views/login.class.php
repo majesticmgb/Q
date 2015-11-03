@@ -80,4 +80,12 @@ class Login extends FormView
 	{
 		return false;
 	}
+
+	/**
+	 * @return void
+	 */
+	protected function initializeData()
+	{
+
+	}
 }
