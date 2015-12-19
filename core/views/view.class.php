@@ -8,6 +8,7 @@
 
 namespace Core\Views;
 
+use Core\Interfaces\Targettable;
 use Core\Module;
 use Core\Q;
 
@@ -16,7 +17,7 @@ use Core\Q;
  *
  * @package Core\Views
  */
-abstract class View
+abstract class View implements Targettable
 {
 	/**
 	 * @var Module

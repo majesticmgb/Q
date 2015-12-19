@@ -15,6 +15,7 @@
 		<!-- Core -->
 		<link href="{$q->getHttpPath()}css/bootstrap-custom.css" rel="stylesheet" type="text/css">
 		<link href="{$q->getHttpPath()}css/q.css" rel="stylesheet" type="text/css">
+		<link href='https://fonts.googleapis.com/css?family=RobotoDraft:400,300,700' rel='stylesheet' type='text/css'>
 		<script src="{$q->getHttpPath()}js/q.js"></script>
 		<!-- /Core -->
 

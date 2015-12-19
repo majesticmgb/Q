@@ -122,7 +122,7 @@ abstract class Module
 			throw new ActionNotFoundException($name, $this->getName());
 		}
 
-		return new $actionClass($this);
+		return new $actionClass($this, $name);
 	}
 
 	/**

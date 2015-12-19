@@ -7,6 +7,7 @@
  */
 
 namespace Core;
+use Core\Interfaces\Targettable;
 
 /**
  * Class Q
@@ -22,7 +23,7 @@ final class Q
 	/**
 	 *
 	 */
-	const DEFAULT_VIEW   = 'Index';
+	const DEFAULT_VIEW = 'Index';
 	/**
 	 * @var Q
 	 */
@@ -124,18 +125,24 @@ final class Q
 		}
 
 		$className = array_pop($structure);
-		$fileName  = strtolower($className) . '.class.php';
-		$dirName   = $this->getServerPath();
+		$dirName   = $this->getServerPath() . implode('/', $structure) . '/';
 
-		while ($namespace = array_shift($structure))
-		{
-			$dirName .= strtolower($namespace) . '/';
-		}
-
+		$fileName = strtolower($className) . '.class.php';
 		if (file_exists($dirName . $fileName))
 		{
 			/** @noinspection PhpIncludeInspection */
 			include($dirName . $fileName);
+
+			return;
+		}
+
+		$fileName = strtolower($className) . '.interface.php';
+		if (file_exists($dirName . $fileName))
+		{
+			/** @noinspection PhpIncludeInspection */
+			include($dirName . $fileName);
+
+			return;
 		}
 	}
 
@@ -174,13 +181,13 @@ final class Q
 	}
 
 	/**
-	 * @param string $url
+	 * @param Targettable $target
 	 */
-	public function redirect($url)
+	public function redirect($target)
 	{
 		if (!headers_sent())
 		{
-			header('Location: ' . $url);
+			header('Location: ' . $target->getUrl());
 		}
 	}
 }

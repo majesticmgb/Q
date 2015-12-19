@@ -1,3 +1,15 @@
+/*** General ***/
+* {
+	font-family: 'RobotoDraft', sans-serif !important;
+	font-weight: 300 !important;
+}
+
+/*** Forms ***/
+.form-group.required label:after
+{
+	content: " *";
+}
+
 /*** Listview ***/
 .list-wrapper {
 	margin: -15px;

@@ -7,19 +7,22 @@
 namespace Core\Actions;
 
 use Core\Error;
+use Core\Interfaces\Targettable;
 use Core\Module;
+use Core\Q;
 
 /**
  * Class Action
  *
  * @package Core
  */
-abstract class Action implements \JsonSerializable
+abstract class Action implements Targettable
 {
 	/**
 	 * @var Module
 	 */
 	private $module;
+	private $name;
 	/**
 	 * @var bool
 	 */
@@ -33,50 +36,26 @@ abstract class Action implements \JsonSerializable
 	 */
 	private $errors = array();
 
-	public final function __construct($module = null)
+	public final function __construct($module = null, $name = null)
 	{
 		$this->module = $module;
+		$this->name = $name;
+	}
+
+	protected final function module()
+	{
+		return $this->module;
+	}
+
+	public final function getName()
+	{
+		return $this->name;
+	}
+
+	public function getUrl()
+	{
+		return Q::get()->getHttpPath().'action/'.strtolower($this->module->getName()).'/'.strtolower($this->getName()).'/';
 	}
 
 	public abstract function execute();
-
-	public final function isSuccessful()
-	{
-		return $this->successful;
-	}
-
-	public final function setSuccessful($successful)
-	{
-		$this->successful = $successful;
-	}
-
-	public final function getResults()
-	{
-		return $this->results;
-	}
-
-	public final function setResults($results)
-	{
-		// Todo: add some kind of validation?
-		$this->results = $results;
-	}
-
-	public final function getErrors()
-	{
-		return $this->errors;
-	}
-
-	public final function addError(Error $error)
-	{
-		$this->errors[] = $error;
-	}
-
-	public final function jsonSerialize()
-	{
-		return array(
-			'success' => $this->isSuccessful(),
-			'results' => $this->getResults(),
-			'errors'  => $this->getErrors(),
-		);
-	}
 }

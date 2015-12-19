@@ -6,6 +6,7 @@
 
 namespace Modules\Users\Views;
 
+use Core\Buttons\Button;
 use Core\FormElements;
 use Core\Q;
 use Core\Views\FormView;
@@ -17,15 +18,6 @@ use Core\Views\FormView;
  */
 class Login extends FormView
 {
-	/**
-	 *
-	 */
-	protected function initializeFormElements()
-	{
-		$this->addFormElement(new FormElements\EmailField('email', 'Email address', '', true));
-		$this->addFormElement(new FormElements\PasswordField('password', 'Password', '', true));
-	}
-
 	/**
 	 * @return string
 	 */
@@ -47,11 +39,6 @@ class Login extends FormView
 		return 'Login';
 	}
 
-	protected function getCancelUrl()
-	{
-		return '';
-	}
-
 	/**
 	 * @return string[]
 	 */
@@ -63,19 +50,6 @@ class Login extends FormView
 		);
 	}
 
-	protected function handleSubmit()
-	{
-		$success = $this->module()->controller('User')->login(
-			$this->getFormElement('email')->getValue(),
-			$this->getFormElement('password')->getValue()
-		);
-
-		if ($success)
-		{
-			Q::get()->redirect(Q::get()->getHttpPath());
-		}
-	}
-
 	public function requiresLogin()
 	{
 		return false;
@@ -84,8 +58,26 @@ class Login extends FormView
 	/**
 	 * @return void
 	 */
-	protected function initializeData()
+	public function initialize()
 	{
+		// TODO: Check for already logged in user
+	}
 
+	/**
+	 * Load the form elements
+	 */
+	protected function getFormElements()
+	{
+		return [
+			new FormElements\EmailField('email', 'Email address', '', true),
+			new FormElements\PasswordField('password', 'Password', '', true),
+		];
+	}
+
+	public function getButtons()
+	{
+		return [
+			new Button('login', $this->module()->action('login'), 'Login', Button::STYLE_PRIMARY),
+		];
 	}
 }

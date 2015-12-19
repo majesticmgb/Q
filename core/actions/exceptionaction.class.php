@@ -35,11 +35,8 @@ class ExceptionAction extends Action
 	{
 		if ($this->getException())
 		{
-			$this->addError(
-				new Error(
-					$this->getException()->getTitle(), $this->getException()->getMessage()
-				)
-			);
+			// TODO: Make prettier
+			die($this->getException()->getTitle() . ': ' . $this->getException()->getMessage());
 		}
 	}
 }
